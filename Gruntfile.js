@@ -6,6 +6,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-benchmark');
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.initConfig({
@@ -18,19 +19,19 @@ module.exports = function (grunt) {
 				options: {
 					node: true
 				},
-				src: ['Gruntfile.js', 'tasks/**/*.*.js']
+				src: ['Gruntfile.js', 'tasks/**/*.js']
 			},
 			src: {
 				options: {
 					node: true
 				},
-				src: ['lib/**/*.*.js']
+				src: ['lib/**/*.js']
 			},
 			test: {
 				options: {
 					node: true
 				},
-				src: ['test/**/*.*.js']
+				src: ['test/**/*.js']
 			}
 		},
 		clean: {
@@ -56,15 +57,40 @@ module.exports = function (grunt) {
 				timeout: 8000
 			},
 			all: {
-				src: 'test/tmp/*.test.js'
+				src: 'test/*.test.js'
+			},
+			stream: {
+				src: 'test/writeBuffer.test.js'
 			}
 		},
 		shell: {
-			scratch_main: {
-				options: {
-					stderr: false
-				},
-				command: 'node scratch/main.js'
+			optimise: {
+				options: {},
+				command: 'node --allow-natives-syntax test/optimiser.js'
+			},
+			stream: {
+				options: {},
+				command: 'node scratch/stream.js'
+			}
+		},
+		benchmark: {
+			all: {
+				src: ['benchmarks/*.js']
+			},
+			buffer: {
+				src: ['benchmarks/buffer*.js']
+			},
+			arr50: {
+				src: ['benchmarks/50*.js']
+			},
+			package: {
+				src: ['benchmarks/package*.js']
+			},
+			encode: {
+				src: ['benchmarks/*Encode.js']
+			},
+			decode: {
+				src: ['benchmarks/*Decode.js']
 			}
 		}
 	});
@@ -85,7 +111,39 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('run', [
-		'mochaTest:all'
+		'mochaTest:stream'
+	]);
+
+	grunt.registerTask('dev', [
+		'shell:optimise'
+	]);
+
+	grunt.registerTask('edit_01', [
+		'shell:stream'
+	]);
+
+	grunt.registerTask('edit_02', [
+		'benchmark:all'
+	]);
+
+	grunt.registerTask('edit_03', [
+		'benchmark:buffer'
+	]);
+
+	grunt.registerTask('edit_04', [
+		'benchmark:arr50'
+	]);
+
+	grunt.registerTask('edit_05', [
+		'benchmark:package'
+	]);
+
+	grunt.registerTask('edit_06', [
+		'benchmark:encode'
+	]);
+
+	grunt.registerTask('edit_07', [
+		'benchmark:decode'
 	]);
 
 	grunt.registerTask('prepublish', [

@@ -4,6 +4,8 @@
 /test
 /typings
 /scratch
+/benchmarks
+/optimiser
 
 /tsd.json
 /tslint.json
@@ -22,6 +24,8 @@
 /tscommand*
 .tscache
 tmp/
+
+/lib/original.js
 
 /*.tgz
 /*.txt
