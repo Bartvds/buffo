@@ -2,9 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/buffo.svg?branch=master)](http://travis-ci.org/Bartvds/buffo) [![NPM version](https://badge.fury.io/js/buffo.svg)](http://badge.fury.io/js/buffo) [![Dependency Status](https://david-dm.org/Bartvds/buffo.svg)](https://david-dm.org/Bartvds/buffo) [![devDependency Status](https://david-dm.org/Bartvds/buffo/dev-status.svg)](https://david-dm.org/Bartvds/buffo#info=devDependencies)
 
-> Jolly data format to transport Javascript objects over binary connections.
+> Binary encoding for Javascript objects.
 
-Transfer Supports all JSON values, Buffers, Date, RegExp and more, originally created to stream over for pipes between processes.
+Transcode all types of JSON values to and from a binary format, including Buffer, Date, RegExp and more. Originally created to stream worker commands over pipes between processes.
 
 :warning: Early release, handle with care :sunglasses:
 
