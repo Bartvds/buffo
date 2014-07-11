@@ -15,6 +15,7 @@ var data = {
 	'regex': /abc/g,
 	'array': [1, 2, 3],
 	'object': {a: 1, b: 2, c: [1, 2, 3]},
+	'uint8array': new Uint8Array([1, 2, 3, 4, 5]),
 	'buffer': new Buffer('abc', 'utf8'),
 	'nan': NaN,
 	'infPos': Number.POSITIVE_INFINITY,
@@ -22,16 +23,6 @@ var data = {
 };
 
 var optimiser = createOptimiser('optimiser');
-
-optimiser.suite('typeOf', function (suite) {
-	Object.keys(data).forEach(function (name) {
-		var value = data[name];
-		suite.add(buffo.typeOf, name);
-		buffo.typeOf(value);
-		suite.optimise(buffo.typeOf);
-		buffo.typeOf(value);
-	});
-});
 
 optimiser.suite('typeOf + getName', function (suite) {
 	Object.keys(data).forEach(function (name) {
@@ -48,11 +39,10 @@ optimiser.suite('typeOf + getName', function (suite) {
 	});
 });
 
-optimiser.suite('writeValue + parseValue', function (suite) {
+optimiser.suite('writeValue', function (suite) {
 	Object.keys(data).forEach(function (name) {
 		var value = data[name];
 		suite.add(buffo.writeValue, name);
-		suite.add(buffo.parseValue, name);
 
 		var chunks;
 
@@ -61,13 +51,6 @@ optimiser.suite('writeValue + parseValue', function (suite) {
 		suite.optimise(buffo.writeValue);
 		chunks = buffo.getWriteStream();
 		buffo.writeValue(value, chunks.push);
-
-		var buffer = chunks.join();
-		chunks = buffo.getWriteStream();
-
-		buffo.parseValue(buffer, 0, chunks.push);
-		suite.optimise(buffo.parseValue);
-		buffo.parseValue(buffer, 0, chunks.push);
 	});
 });
 
@@ -98,15 +81,6 @@ optimiser.suite('funcs', function (suite) {
 		var buffer = buffo.encode(value);
 		suite.optimise(write);
 		buffo.encode(value);
-
-		// consts are inlined so will never be run/optimized
-		if (!buffo.isConst(type)) {
-			var parse = buffo.getParseFunc(type);
-			suite.add(parse, 'parse ' + key);
-			buffo.parse(buffer);
-			suite.optimise(parse);
-			buffo.parse(buffer);
-		}
 
 		var dummy = function() {
 

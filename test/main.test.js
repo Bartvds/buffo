@@ -25,12 +25,8 @@ function testData(data) {
 
 			var type = buffo.peekInfo(buffer, 0);
 
-			var values = buffo.getWriteStream();
-			var pointer = buffo.parseValue(buffer, 0, values.push);
-
 			if (typeof test.length === 'number') {
 				assert.strictEqual(buffer.length, test.length, 'length');
-				assert.strictEqual(pointer, test.length, 'pointer');
 			}
 
 			assert.strictEqual(type, test.type, 'type');
@@ -273,6 +269,7 @@ describe('bulk', function () {
 			{a: 1, b: 2},
 			{a: 1, b: true, c: [9, 8, 7]},
 			new Buffer(1024),
+			new Uint8Array([1, 2, 3, 4, 5]),
 			new Date(),
 			/aa/g,
 			'a b c d e f g h',
@@ -287,6 +284,7 @@ describe('bulk', function () {
 					callback()
 				}, 1);
 			});
+
 			var th2 = through2(function (chunk, enc, callback) {
 				assert(chunk instanceof Buffer, 'expected chunk top be a Buffer');
 				var that = this;
@@ -295,7 +293,9 @@ describe('bulk', function () {
 					callback()
 				}, 1);
 			});
+
 			var actual = [];
+
 			var pipe = from(objects).pipe(th1).pipe(buffo.encodeStream()).pipe(th2).pipe(buffo.decodeStream());
 			pipe.on('data', function (data) {
 				actual.push(data);
