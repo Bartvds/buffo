@@ -35,8 +35,7 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "bl": "^0.8.2",
-    "duplexer2": "0.0.2"
+    "bl": "^0.8.2"
   },
   "devDependencies": {
     "ansicolors": "^0.3.2",
