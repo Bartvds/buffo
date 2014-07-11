@@ -13,24 +13,28 @@ Transcode all types of JSON values to and from a binary format, including Buffer
 - String (utf8)
 - Boolean
 - Number (incl NaN, Infinity)
-- Array
 - Object
+- Array
 - Buffer
+- TypedArray's
 - Date
 - RegExp
 - null
 - undefined
-- arguments (transformed to array)
+- arguments (arrives as Array)
+
+Array and Object can hold any of the other types.
 
 Next:
 
 - Map
 - Set
-- TypedArray's
 
 ## Usage
 
 ### Single value
+
+Write a value to a Buffer, later decode the Buffer back to a value.
 
 ````js
 var buffo = require('buffo');
@@ -41,7 +45,7 @@ var outputValue = buffo.parse(buffer);
 
 ### Stream
 
-Create a encoder and a decoder stream and connect them over some binary stream. Then write JavaScript objects to one end and they magically reappear at the other end of the pipeline.
+Create encoder and decoder Transform stream and connect them over some binary pipe. Then write or pipe JavaScript objects and they magically reappear at the other end of the pipeline.
 
 ````js
 var buffo = require('buffo');
@@ -58,18 +62,19 @@ process.stdin.pipe(encoding)).on('data', function(data) {
 });
 ````
 
+(note this stdin/stdout example is blocking on Linux, so from inter-process stream better use net or file-descriptor streams)
 
 ## Speed & reliability
 
-Performance unclear, varies a lot per data type. Reliability unproven but hopeful.
+Performance fair but unclear, varies a lot per data type. Reliability unproven but hopeful.
 
-If you need maximum speed and don't need the fancy types use good ol' JSON.parse or if you can use native dependencies consider use msgpack.
+If you need maximum speed and don't need the fancy types use good ol' line separated JSON.
 
 
 ## Todo
 
-- Optimise more, verify more v8 acceleration.
-- Review statemachine for symmetric encode/decode speed.
+- Look into statemachine for decoder.
+- Verify and expand more v8 optimisations.
 - Extract optimiser workbench to own project.
 
 
