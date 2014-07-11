@@ -211,7 +211,53 @@ describe('bulk', function () {
 		});
 	});
 
-	describe('stream', function () {var numsLots = [];
+	describe('typed arrays', function () {
+		var numbersI = [1, 2, 3, 4, 5];
+		var numbersU = [-1, -2, -3, 4, 5];
+		var numbersF = [-1.5, -2.1, 3, 4.5, 5];
+
+		testData({
+			'Int8Array': {
+				value: new Int8Array(numbersI),
+				type: 'int8array'
+			},
+			'Uint8Array': {
+				value: new Uint8Array(numbersU),
+				type: 'uint8array'
+			},
+			'Int16Array': {
+				value: new Int16Array(numbersI),
+				type: 'int16array'
+			},
+			'Uint16Array': {
+				value: new Uint16Array(numbersU),
+				type: 'uint16array'
+			},
+			'Int32Array': {
+				value: new Int32Array(numbersI),
+				type: 'int32array'
+			},
+			'Uint32Array': {
+				value: new Uint32Array(numbersU),
+				type: 'uint32array'
+			},
+			'Float32Array': {
+				value: new Float32Array(numbersF),
+				type: 'float32array'
+			},
+			'Float64Array': {
+				value: new Float64Array(numbersF),
+				type: 'float64array'
+			},
+			'Uint8ClampedArray': {
+				value: new Uint8ClampedArray(numbersU),
+				type: 'uint8clampedarray'
+			}
+		});
+	});
+
+	describe('stream', function () {
+		var numsLots = [];
 		var numsLots = [];
 		for (var i = 0; i < 150; i++) {
 			numsLots.push(i);
@@ -236,7 +282,7 @@ describe('bulk', function () {
 		it('encodes/parses', function (done) {
 			var th1 = through2.obj(function (chunk, enc, callback) {
 				var that = this;
-				setTimeout(function() {
+				setTimeout(function () {
 					that.push(chunk);
 					callback()
 				}, 1);
@@ -244,7 +290,7 @@ describe('bulk', function () {
 			var th2 = through2(function (chunk, enc, callback) {
 				assert(chunk instanceof Buffer, 'expected chunk top be a Buffer');
 				var that = this;
-				setTimeout(function() {
+				setTimeout(function () {
 					that.push(chunk);
 					callback()
 				}, 1);
