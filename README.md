@@ -57,7 +57,7 @@ encoding.write(myValue);
 
 // receiver
 var decoding = buffo.decodeStream();
-process.stdin.pipe(encoding)).on('data', function(data) {
+process.stdin.pipe(decoding).on('data', function(data) {
     // got values
 });
 ````
