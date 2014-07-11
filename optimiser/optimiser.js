@@ -112,7 +112,7 @@ function getSuite(name, test) {
 
 			statuses.forEach(function (status) {
 				nameLen = Math.max(nameLen, status.name.length);
-				caseLen = Math.max(caseLen, (status.case ? status.case.length + 1 : ''));
+				caseLen = Math.max(caseLen, (status.case ? status.case.length : ''));
 				labelLen = Math.max(labelLen, status.label.length);
 			});
 
@@ -122,7 +122,10 @@ function getSuite(name, test) {
 			statuses.forEach(function (status) {
 				ret += (status.ok ? colors.green('>>') : colors.red('>>')) + ' ';
 				ret += helper.pad(status.name, nameLen);
-				ret += (status.case ? '  [' + helper.pad(status.case + ']', caseLen) : '');
+				if (status.case) {
+					ret += (status.ok ? colors.green('  >  ') : colors.red('  >  '));
+					ret += helper.pad(status.case, caseLen);
+				}
 				ret += '  ' + (status.ok ? colors.green('OK ') : colors.red('NOT'));
 				ret += '  ' + helper.pad(status.label, labelLen);
 				ret += '\n';

@@ -82,7 +82,7 @@ optimiser.suite('funcs', function (suite) {
 		suite.optimise(write);
 		buffo.encode(value);
 
-		var dummy = function() {
+		var dummy = function () {
 
 		};
 
@@ -119,6 +119,30 @@ optimiser.suite('writeToBig', function (suite) {
 	writeToBig({aa: 2}, chunks.push);
 	suite.optimise(writeToBig);
 	writeToBig({aa: 2}, chunks.push);
+});
+
+optimiser.suite('array object helper', function (suite) {
+	var arr = [1, 2, 3, 4, 5, 6, 7, 8];
+	var obj = {a: 1, b: 2, c: [1, 2, 3]};
+	suite.add(buffo.writeObject);
+	suite.add(buffo.writeArray);
+	buffo.encode(arr);
+	buffo.encode(obj);
+	suite.optimise();
+	buffo.encode(arr);
+	buffo.encode(obj);
+});
+
+optimiser.suite('buffer', function (suite) {
+	var arr = new Int32Array([1, 2, 3, 4, 5, 6, 7, 8]);
+
+	suite.add(buffo.toBuffer);
+	suite.add(buffo.toArrayBuffer);
+
+	buffo.toArrayBuffer(buffo.toBuffer(arr.buffer));
+	suite.optimise();
+	buffo.toArrayBuffer(buffo.toBuffer(arr.buffer));
+
 });
 
 optimiser.run();
