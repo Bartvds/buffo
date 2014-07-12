@@ -25,6 +25,7 @@
 .tscache
 tmp/
 
+/lib/helper.js
 /lib/original.js
 
 /*.tgz
