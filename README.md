@@ -45,7 +45,9 @@ var outputValue = buffo.parse(buffer);
 
 ### Stream
 
-Create encoder and decoder Transform stream and connect them over some binary pipe. Then write or pipe JavaScript objects and they magically reappear at the other end of the pipeline.
+Create encoder and decoder Transform streams and connect them over some binary pipe. Then write or pipe JavaScript objects and they magically reappear at the other end.
+
+Keep in mind that due to the nature of node's object-streams you cannot send `null` or `undefined` as root value as they will terminate the Transform stream (they work fine inside Objects and Arrays).
 
 ````js
 var buffo = require('buffo');
@@ -102,7 +104,8 @@ They are welcome but please discuss in [the issues](https://github.com/Bartvds/b
 
 ## History
 
-- 0.0.x - First releases.
+- 0.1.0 - First main release.
+- 0.0.x - Dev releases.
 
 
 ## License
