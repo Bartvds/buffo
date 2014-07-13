@@ -55,7 +55,7 @@ var outputValue = buffo.parse(buffer);
 
 Create encoder and decoder Transform streams and connect them over some binary pipe. Then write or pipe JavaScript objects and they magically reappear at the other end.
 
-Keep in mind that due to the nature of node's object-streams you cannot send `null` or `undefined` as root value as they will terminate the Transform stream (they work fine inside Objects and Arrays).
+Keep in mind that due to the nature of node's object-streams you cannot send `null` or `undefined` as root value as they will terminate the Transform stream (they work fine nested in Arrays or Objects).
 
 ````js
 var buffo = require('buffo');
@@ -68,7 +68,7 @@ encoding.write(myValue);
 // receiver
 var decoding = buffo.decodeStream();
 process.stdin.pipe(decoding).on('data', function(data) {
-    // got values
+    // received a value
 });
 ````
 
