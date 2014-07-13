@@ -30,6 +30,14 @@ Next:
 - Map
 - Set
 
+
+## Install
+
+````bash
+$ npm install buffo
+````
+
+
 ## Usage
 
 ### Single value
