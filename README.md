@@ -15,20 +15,21 @@ Transcode all types of JSON values to and from a binary format, including Buffer
 - Number (incl NaN, Infinity)
 - Object
 - Array
-- Buffer
-- TypedArray's
+- Buffer (fastest)
+- TypedArray (all types, very fast)
 - Date
 - RegExp
 - null
 - undefined
 - arguments (arrives as Array)
 
-Array and Object can hold any of the other types.
+Array and Object can hold any of the other types. Serialisation of Object reads enumerable properties, but ignores functions.
 
 Next:
 
-- Map
-- Set
+- Error (needs special case)
+- Set (like Array)
+- Map (keys would be tricky)
 
 
 ## Install
