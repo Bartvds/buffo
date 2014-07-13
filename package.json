@@ -1,6 +1,6 @@
 {
   "name": "buffo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Binary encoding for Javascript objects.",
   "keywords": [
     "serialisation",
